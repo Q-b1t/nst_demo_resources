@@ -1,12 +1,12 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.applications.vgg19 import preprocess_input
-from tensorflow.keras.preprocessing.image import load_img,img_to_array
+from tensorflow.keras.preprocessing.image import img_to_array
 
-def preprocess_image(image_path,rows_cols):
+def preprocess_image(img,rows_cols):
   img_nrows, img_ncols = rows_cols
   # load the image into a tensot
-  img = load_img(image_path, target_size=(img_nrows, img_ncols))
+  img = img.resize((img_ncols,img_nrows))
   # turn the image into a numpy array
   img = img_to_array(img)
   # add a batch dimention
@@ -14,6 +14,7 @@ def preprocess_image(image_path,rows_cols):
   # preprocess according to the vgg model's specification
   img = preprocess_input(img)
   return tf.convert_to_tensor(img)
+
 
 def deprocess_image(x,rows_cols):
     img_nrows, img_ncols = rows_cols
